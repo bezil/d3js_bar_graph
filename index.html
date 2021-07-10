@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Custom Bar Graph | D3 JS</title>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+        <style>
+            body{
+                background-color: #1d1d1d;
+                margin:0;
+            }
+            .barinputs, .svgcontainer{
+                display:flex;
+                flex-direction: row;
+                width:456px;
+                align-items:center;
+                justify-content: space-around;
+                padding:10px 0;
+            }
+            .barinputs input{
+                width:20px;
+                height:30px;
+                background-color: #141414;
+                border-radius: 4px;
+                border:1px solid #545454;
+                color:#fff;
+                text-align: center;
+                font-size: 12px;
+            }
+            .barchart{
+                width:456px;
+                height:100%;
+                position: absolute;
+                left:0;
+            }
+            .barchart svg{
+                margin-top: 14px;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="display: grid;place-items: center;height:100vh;width:100vw;">
+            <div style="padding: 10vw;">
+                <div style="color:white;font-family: 'Raleway';text-align: center;padding-bottom: 10px;">
+                    Custom Bar Graph
+                </div>
+                <div class="barinputs">
+                    <input type="text" placeholder="%" id="input0" onchange="ichange()">
+                    <input type="text" placeholder="%" id="input1" onchange="ichange()">
+                    <input type="text" placeholder="%" id="input2" onchange="ichange()">
+                    <input type="text" placeholder="%" id="input3" onchange="ichange()">
+                    <input type="text" placeholder="%" id="input4" onchange="ichange()">
+                    <input type="text" placeholder="%" id="input5" onchange="ichange()">
+                    <input type="text" placeholder="%" id="input6" onchange="ichange()">
+                    <input type="text" placeholder="%" id="input7" onchange="ichange()">
+                    <input type="text" placeholder="%" id="input8" onchange="ichange()">
+                    <input type="text" placeholder="%" id="input9" onchange="ichange()">
+
+                </div>
+                <div class="svgcontainer" style="position: relative;">
+                    <svg width="20" height="200">
+                        <rect width="20" height="200" fill="#141414" rx="10"></rect>
+                    </svg>
+                    <svg width="20" height="200">
+                        <rect width="20" height="200" fill="#141414" rx="10"></rect>
+                    </svg>
+                    <svg width="20" height="200">
+                        <rect width="20" height="200" fill="#141414" rx="10"></rect>
+                    </svg>
+                    <svg width="20" height="200">
+                        <rect width="20" height="200" fill="#141414" rx="10"></rect>
+                    </svg>
+                    <svg width="20" height="200">
+                        <rect width="20" height="200" fill="#141414" rx="10"></rect>
+                    </svg>
+                    <svg width="20" height="200">
+                        <rect width="20" height="200" fill="#141414" rx="10"></rect>
+                    </svg>
+                    <svg width="20" height="200">
+                        <rect width="20" height="200" fill="#141414" rx="10"></rect>
+                    </svg>
+                    <svg width="20" height="200">
+                        <rect width="20" height="200" fill="#141414" rx="10"></rect>
+                    </svg>
+                    <svg width="20" height="200">
+                        <rect width="20" height="200" fill="#141414" rx="10"></rect>
+                    </svg>
+                    <svg width="20" height="200">
+                        <rect width="20" height="200" fill="#141414" rx="10"></rect>
+                    </svg>
+
+                    <div class="barchart">
+                        <svg>
+
+                        </svg>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <script>
+            let colors = ['#BB0087','#FF213A','#FF6C00','#FFCE00','#B5F62E','#009D9B','#1F38C2','#B949FF','#FFFFFF','#00FFEE']
+            let valueInput = []
+
+            function ichange(){
+                for(let i=0;i<10;i++){
+                    valueInput[i] = document.getElementById('input'+i).value;
+                }
+                let w=456, h = 192;
+                let heightScale = d3.scaleLinear()
+                                    .domain([0, 100])
+                                    .range([0,h]);
+                let barWidth = (w/10);
+
+                svg = d3.select('.barchart').select('svg');
+                svg.attr('width',w).attr('height',h).attr('y',10);
+
+                svg.selectAll('rect').remove()
+                svg.selectAll('rect')
+                .data(valueInput)
+                .enter()
+                .append('rect').attr('width',10).attr('rx',6)
+                .attr('x',function (d,i){
+                    return barWidth*i +18;
+                })
+                .attr('y',function (d){
+                    return h - heightScale(d)
+                })
+                .attr('height',function (d){
+                    return heightScale(d)
+                })
+                .attr('fill',function (d,i){
+                    return colors[i]
+                })
+            }
+        </script>
+    </body>
+</html>
